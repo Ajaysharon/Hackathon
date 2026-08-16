@@ -1,0 +1,8 @@
+20,False
+16,False
+12,False
+10,False
+8,False
+6,True
+4,False
+2,True

@@ -1,0 +1,14 @@
+# Record of the evaluation run that produced results/.
+#
+#   python baseline_solution/evaluate_localize.py --config configs/eval_localize.yaml
+
+root: .dram_synthetic3
+levels: [low, medium, high, severe]
+tolerance-px: 5.0              # a localisation counts as correct within 5 px of GT
+output-dir: results
+
+# Solver settings (see src/locate.py for how each constant was chosen)
+seeds: 4                       # refinement seeds kept after the global re-score
+shear: 2.35                    # mean raster shear undone in unwarp(), px
+# barrel: omitted -> "auto"    # accept the estimated lens distortion only when it
+#                              # improves the score by more than BARREL_MIN_GAIN

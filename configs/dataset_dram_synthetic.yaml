@@ -1,0 +1,34 @@
+# Record of the benchmark dataset shipped with this submission.
+#
+#   python generate_dataset.py --config configs/dataset_dram_synthetic3.yaml
+#
+# equivalent to the explicit form:
+#
+#   python generate_dataset.py --samples-per-level 40 --rotation-max-deg 3.0 \
+#     --seed 2026 --architectures dram_1x dram_dense dram_loose dram_wide \
+#     dram_compact dram_legacy --output-dir .dram_synthetic3
+
+samples-per-level: 40          # 40 x 4 levels = 160 Reference/Search pairs
+rotation-max-deg: 3.0          # each sample draws its rotation from U(0, 3.0) deg
+seed: 2026                     # per-level seed is seed + i*9973
+output-dir: .dram_synthetic3
+
+architectures:                 # cycled deterministically, i % len(architectures)
+  - dram_1x
+  - dram_dense
+  - dram_loose
+  - dram_wide
+  - dram_compact
+  - dram_legacy
+
+# For the record only -- the levels themselves live in src/noise_levels.py and
+# are not read back from this file.
+noise_levels:
+  low:    {dose_search: 800.0, detector_noise_sigma_search: 2.0,  shear_amplitude_px: 0.5, drift_jitter_px: 0.2}
+  medium: {dose_search: 200.0, detector_noise_sigma_search: 5.0,  shear_amplitude_px: 1.5, drift_jitter_px: 0.5}
+  high:   {dose_search:  60.0, detector_noise_sigma_search: 8.0,  shear_amplitude_px: 2.5, drift_jitter_px: 1.0, speckle_sigma: 0.15}
+  severe: {dose_search:  25.0, detector_noise_sigma_search: 12.0, shear_amplitude_px: 4.0, drift_jitter_px: 1.8, speckle_sigma: 0.3, salt_pepper_prob: 0.01}
+
+# Fixed by the generator defaults (src/pipeline.py) for this run:
+#   reference 1000x1000 px @ 1 nm/px, search 1000x1000 px @ 10 nm/px
+#   zoom (reference:search pixel-size ratio) drawn per sample from U(9.0, 11.0)

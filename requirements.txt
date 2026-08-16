@@ -1,0 +1,38 @@
+# Drift-Sense -- dataset generator + localizer
+#
+#   pip install -r requirements.txt
+#
+# Python 3.9+ (developed and measured on 3.13.12). Lower bounds are the oldest
+# releases the code is known to work against; the "verified" version in each
+# comment is what produced the numbers in README.md.
+
+# --- core: generator, solver, evaluators -------------------------------------
+numpy>=1.24                 # verified 2.2.6. The PR code prefers np.trapezoid and
+                            # falls back to np.trapz, so 1.x and 2.x both work.
+opencv-python-headless>=4.6  # verified 4.13.0.92. matchTemplate / warpAffine /
+                            # GaussianBlur. Headless on purpose -- nothing in this
+                            # repo opens a window (no imshow/waitKey anywhere).
+                            # Plain opencv-python works too if you already have it.
+matplotlib>=3.6             # verified 3.10.9. PR curves and the AP-vs-noise plots
+                            # (Agg backend, set explicitly by the evaluators).
+pyyaml>=6.0                 # verified 6.0.3. Reads configs/*.yaml for --config.
+                            # Optional in the strict sense -- without it --config
+                            # still accepts a JSON file -- but the shipped configs
+                            # are YAML.
+
+# --- tests -------------------------------------------------------------------
+pytest>=7.0                 # verified 9.0.2. `pytest tests/` -> 18 passed.
+
+# --- optional: GPU acceleration for localize.py ------------------------------
+# Install exactly one, matching your installed CUDA runtime -- there is no
+# universal wheel. Results were produced with cupy-cuda11x 13.6.0 on a GTX
+# 1650 Ti. Without CuPy, localize.py prints "[GPU unavailable -- ...]" and falls
+# back to the CPU solver in src/locate.py, which gives the same answers about
+# 2x slower (see RUNNING.md, Session A).
+# cupy-cuda11x>=12.0        # CUDA 11.x
+# cupy-cuda12x>=12.0        # CUDA 12.x
+
+# --- optional: regenerating the slide deck's images --------------------------
+# Only needed to re-run slides/make_assets.py; the committed assets need neither.
+# pillow>=9.0               # verified 12.1.1
+# qrcode>=7.0               # make_assets.py skips the QR code if it is missing

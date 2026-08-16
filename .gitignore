@@ -1,0 +1,13 @@
+# Generated data
+.dram_synthetic/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# OS
+desktop.ini
+
+# Claude Code local settings
+.claude/settings.local.json
